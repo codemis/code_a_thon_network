@@ -7,3 +7,4 @@ tmp/cache/views/*
 tmp/logs/*
 tmp/sessions/*
 tmp/tests/*
+webroot/php_error.log
