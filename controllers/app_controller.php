@@ -37,7 +37,7 @@ class AppController extends Controller {
 		$this->Auth->autoRedirect = false;
 		$this->Auth->fields = array('username' => 'username', 'password' => 'password');
 		$this->Auth->loginAction = array('controller' => 'users', 'action' => 'sign_in', 'admin' => false);
-		$this->Auth->logoutRedirect = array('controller' => 'users', 'action' => 'sign_in', 'admin' => false);
+		$this->Auth->logoutRedirect = '/';
 		$this->Auth->loginError = '<h5>Invalid username / password combination. Please try again.</h5>';
 		$this->Auth->authorize = 'controller';
 		/**

@@ -75,6 +75,7 @@ class UsersController extends AppController {
 			$this->Session->setFlash(strip_tags($this->Auth->loginError), 'flash_failure');
 			$this->data['User']['password'] ="";
 		}
+		$this->redirect('/');
 	}
 	
 	/**
