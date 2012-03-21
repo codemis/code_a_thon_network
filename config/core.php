@@ -85,7 +85,7 @@
  *
  * [Note Routing.admin is deprecated in 1.3.  Use Routing.prefixes instead]
  */
-	//Configure::write('Routing.prefixes', array('admin'));
+Configure::write('Routing.prefixes', array('admin'));
 
 /**
  * Turn off all caching application-wide.
@@ -245,7 +245,7 @@
  * If you are on PHP 5.3 uncomment this line and correct your server timezone
  * to fix the date & time related errors.
  */
-	//date_default_timezone_set('UTC');
+date_default_timezone_set('UTC');
 
 /**
  *
