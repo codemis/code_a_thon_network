@@ -8,7 +8,7 @@
 	  <![endif]-->
 		<?php
 			echo $this->Html->css(array('bootstrap.min','application'));
-			echo $this->Html->script(array('jquery.min', 'bootstrap.min'));
+			echo $this->Html->script(array('jquery.min', 'bootstrap.min', 'cakebootstrap'));
 			echo $scripts_for_layout;
 		?>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
