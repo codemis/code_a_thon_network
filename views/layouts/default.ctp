@@ -8,7 +8,7 @@
 	  <![endif]-->
 		<?php
 			echo $this->Html->css(array('bootstrap.min','application'));
-			echo $this->Html->script(array('jquery.min', 'bootstrap.min', 'cakebootstrap'));
+			echo $this->Html->script(array('jquery.min', 'bootstrap.min'));
 			echo $scripts_for_layout;
 		?>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,13 +32,13 @@
 	    </div>
 	  </div>
 	  <div class="container">
-			<?php if($this->Session->flash()): ?>
-	      <div class="alert alert-success">
-	        <a class="close" data-dismiss="alert">×</a>
-	        <?php echo $this->Session->flash(); ?>
-	      </div>
-			<?php endif; ?>
-			<?php echo $content_for_layout; ?>
-	  </div>
+			<div class="row">
+				<div class="span3"><?php echo $this->element('../users/_sidebar_sign_in'); ?></div>
+				<div class="span9">
+					<?php echo $this->Session->flash(); ?>
+					<?php echo $content_for_layout; ?>
+				</div>
+			</div>
+		</div>
 	</body>
 </html>

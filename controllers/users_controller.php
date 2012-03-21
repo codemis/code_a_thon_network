@@ -60,18 +60,19 @@ class UsersController extends AppController {
 			 * @author Johnathan Pulos
 			 */
 			if ($this->Auth->user('active') == 0) {
-				$this->send_message('Your account has not been activated yet!  Please check your email.', 'info');
+				$this->send_message('', 'info');
+				$this->Session->setFlash('Your account has not been activated yet!  Please check your email.', 'flash_failure');
 				$this->data['User']['password'] ="";
       	$this->Auth->logout();
 			}else if ($this->Auth->user('active') == 2) {
-				$this->send_message('Your account has been suspended!','error');
+				$this->Session->setFlash('Your account has been suspended!', 'flash_failure');
 				$this->data['User']['password'] ="";
 				$this->Auth->logout();
 			}
 			$user = $this->User->findById($this->Auth->user('id'));
 			$this->redirect(array('controller' => 'users', 'action' => 'index', 'admin' => true));
 		}else if(!empty($this->data)){
-			$this->send_message(strip_tags($this->Auth->loginError), 'error');
+			$this->Session->setFlash(strip_tags($this->Auth->loginError), 'flash_failure');
 			$this->data['User']['password'] ="";
 		}
 	}
