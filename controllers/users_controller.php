@@ -15,17 +15,17 @@ class UsersController extends AppController {
 	public $name = 'Users';
 	
 	/**
-  	 * An array of CakePHP/Custom helpers used by this controller
-  	 *
-  	 * @var array
-  	 **/
+ 	 * An array of CakePHP/Custom helpers used by this controller
+ 	 *
+ 	 * @var array
+ 	 **/
 	public $helpers = array();
 	
 	/**
-  	 * An array of CakePHP/Custom components used by this controller
-  	 *
-  	 * @var array
-  	 **/
+ 	 * An array of CakePHP/Custom components used by this controller
+ 	 *
+ 	 * @var array
+ 	 **/
 	public $components = array('Email');
 
 	/**
