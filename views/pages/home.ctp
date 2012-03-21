@@ -1,1 +1,1 @@
-<h1>Welcome to Code-A-Thon Network</h1>
+<h1>Welcome</h1>
