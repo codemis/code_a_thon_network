@@ -31,6 +31,8 @@
 							<?php if($session->read('Auth.User.id')): ?>
 								<li><?php echo $this->Html->link("Welcome ".$session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'my_account', 'admin' => false)); ?></li>
 								<li><?php echo $this->Html->link('Sign Out', array('controller' => 'users', 'action' => 'sign_out', 'admin' => false)); ?></li>
+							<?php else: ?>
+								<li><div><?php echo $this->Html->link('Join the Network', array('controller' => 'users', 'action' => 'join', 'admin' => false), array('class' => 'btn btn-primary')); ?></div></li>
 							<?php endif; ?>
 						</ul>
 	        </div>

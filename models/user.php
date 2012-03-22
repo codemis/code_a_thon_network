@@ -106,6 +106,18 @@ class User extends AppModel {
 			}
 		}
 	}
+	
+	/**
+	 * Creates an activation hash for the current user.
+	 *
+	 * @param string $created_on User.created_on 
+	 * @return string
+	 * @author Technoguru Aka. Johnathan Pulos
+	 */
+	function getActivationHash($created_on) {
+		$link_salt = 'hggdfssaRwe12212aaq66524111339';   
+		return substr(Security::hash($link_salt . $created_on . date('Ymd')), 0, 14);
+	}
 
 	/**
 	 * CakePHP callback beforeSave(); Before save function for the Users Model.
