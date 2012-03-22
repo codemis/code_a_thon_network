@@ -36,7 +36,7 @@ class UsersController extends AppController {
 	 *  @author Technoguru Aka. Johnathan Pulos
 	*/
 	function beforeFilter() {
-		$this->Auth->allow('join', 'activate', 'resend_activation');
+		$this->Auth->allow('join', 'activate', 'resend_activation', 'forgot_password');
 		parent::beforeFilter();
 	}
 	
@@ -235,6 +235,39 @@ class UsersController extends AppController {
 				$this->redirect('/');
 			}else{
 				$this->Session->setFlash("Please provide a valid email.", 'flash_failure');
+				$this->redirect('/');
+			}
+		}		
+	}
+	
+	/**
+	 * Request to change your password
+	 *
+	 * @return void
+	 * @author Technoguru Aka. Johnathan Pulos
+	 */
+	function forgot_password() {
+		if (!empty($this->data)) {
+			if(!empty($this->data['User']['email'])){
+				$user = $this->User->findByEmail($this->data['User']['email']);
+				if(!empty($user)){
+					/**
+					 * Create a new remote hash to handle the reset password
+					 *
+					 * @author Technoguru Aka. Johnathan Pulos
+					 */
+					$this->User->id = $user['User']['id'];
+					$newRemoteHash = $this->User->getActivationHash($user['User']['created']);
+					$this->User->saveField('remote_hash', $newRemoteHash);
+					$this->setLinkHashForEmail('users/reset_password/' . $user['User']['id'], $newRemoteHash);
+					$this->send_user_email($user, 'user_pass_change', 'Request to Change Password');
+					$this->Session->setFlash("Your request for a password has been emailed to the email on your account.  Please follow the instructions provided in the email.", 'flash_success');
+				}else{
+					$this->Session->setFlash("The email was invalid.", 'flash_failure');
+				}	
+				$this->redirect('/');
+			}else{
+				$this->Session->setFlash("The email was invalid.", 'flash_failure');
 				$this->redirect('/');
 			}
 		}		
