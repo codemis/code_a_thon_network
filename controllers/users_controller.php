@@ -79,6 +79,18 @@ class UsersController extends AppController {
 	}
 	
 	/**
+	 * Sign out of the website
+	 *
+	 * @return void
+	 * @author Technoguru Aka. Johnathan Pulos
+	 */
+	function sign_out() {
+		$this->Session->destroy();
+		$this->Session->setFlash("You've successfully logged out.", 'flash_success');
+		$this->redirect('/');
+	}
+	
+	/**
 	 * ADMIN: List all users for the system
 	 *
 	 * @return void

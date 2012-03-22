@@ -27,6 +27,12 @@
 	          <ul class="nav">
 	            <li><?php echo $this->Html->link('Home', '/'); ?></li>
 	          </ul>
+						<ul class="nav pull-right">
+							<?php if($session->read('Auth.User.id')): ?>
+								<li><?php echo $this->Html->link("Welcome ".$session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'view', 'admin' => false, $session->read('Auth.User.id'))); ?></li>
+								<li><?php echo $this->Html->link('Sign Out', array('controller' => 'users', 'action' => 'sign_out', 'admin' => false)); ?></li>
+							<?php endif; ?>
+						</ul>
 	        </div>
 	      </div>
 	    </div>
