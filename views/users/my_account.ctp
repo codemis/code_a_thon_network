@@ -3,7 +3,7 @@
 		<h1>My Account</h1>
 	</div>
 	<div class="span1">
-		<?php echo $this->Html->Link('Edit', array('controller' => 'users', 'action' => 'edit', $user['User']['id']), array('class' => 'btn')); ?>
+		<?php echo $this->Html->Link('Edit', array('controller' => 'users', 'action' => 'edit_account'), array('class' => 'btn')); ?>
 	</div>
 </div>
 <div class="well">

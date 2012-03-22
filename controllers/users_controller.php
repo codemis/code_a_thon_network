@@ -102,6 +102,39 @@ class UsersController extends AppController {
 	}
 	
 	/**
+	 * Edit your account
+	 *
+	 * @return void
+	 * @access public
+	 * @author Johnathan Pulos
+	 */
+	function edit_account() {
+		$user = $this->User->read(null, $this->Auth->user('id'));
+		if(!empty($this->data)) {
+				if (($this->data['User']['changePass']==1) && ($this->User->validates())) {
+					// Hash the password, and save the new record
+					$this->data['User']['password'] = $this->Auth->password($this->data['User']['password_original']);    
+				}
+				$this->data['User']['id'] = $user['User']['id'];
+				if ($this->User->save($this->data, true, array('username', 'password', 'email'))) {
+					/**
+					 * Reload the User Session
+					 *
+					 * @author Johnathan Pulos
+					 */
+					$this->Auth->login($user);
+					$this->Session->setFlash("Your account has been updated.", 'flash_success');
+					$this->redirect(array('controller' => 'users', 'action' => 'my_account', 'admin' => false));
+				}else{
+					$this->Session->setFlash("Unable to modify the user information.", 'flash_error');
+					$this->redirect(array('controller' => 'users', 'action' => 'my_account', 'admin' => false));
+				}
+		}else {
+			$this->data = $user;
+		}
+	}
+	
+	/**
 	 * ADMIN: List all users for the system
 	 *
 	 * @return void

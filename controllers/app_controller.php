@@ -61,5 +61,6 @@ class AppController extends Controller {
 	function isAuthorized() {
 		return true;
 	}
+	
 }
 ?>
