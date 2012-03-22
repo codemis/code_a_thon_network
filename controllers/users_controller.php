@@ -19,7 +19,7 @@ class UsersController extends AppController {
  	 *
  	 * @var array
  	 **/
-	public $helpers = array();
+	public $helpers = array('Time');
 	
 	/**
  	 * An array of CakePHP/Custom components used by this controller
@@ -88,6 +88,17 @@ class UsersController extends AppController {
 		$this->Session->destroy();
 		$this->Session->setFlash("You've successfully logged out.", 'flash_success');
 		$this->redirect('/');
+	}
+	
+	/**
+	 * View your account
+	 * 
+	 * @return void
+	 * @access public
+	 * @author Johnathan Pulos
+	 */
+	function my_account() {
+		$this->set('user', $this->User->read(null, $this->Auth->user('id')));
 	}
 	
 	/**

@@ -29,7 +29,7 @@
 	          </ul>
 						<ul class="nav pull-right">
 							<?php if($session->read('Auth.User.id')): ?>
-								<li><?php echo $this->Html->link("Welcome ".$session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'view', 'admin' => false, $session->read('Auth.User.id'))); ?></li>
+								<li><?php echo $this->Html->link("Welcome ".$session->read('Auth.User.username'), array('controller' => 'users', 'action' => 'my_account', 'admin' => false)); ?></li>
 								<li><?php echo $this->Html->link('Sign Out', array('controller' => 'users', 'action' => 'sign_out', 'admin' => false)); ?></li>
 							<?php endif; ?>
 						</ul>
@@ -38,7 +38,7 @@
 	    </div>
 	  </div>
 	  <div class="container">
-			<div class="row">
+			<div class="row-fluid">
 				<div class="span3"><?php echo $this->element('../users/_sidebar_sign_in'); ?></div>
 				<div class="span9">
 					<?php echo $this->Session->flash(); ?>
