@@ -36,7 +36,7 @@ class UsersController extends AppController {
 	 *  @author Technoguru Aka. Johnathan Pulos
 	*/
 	function beforeFilter() {
-		$this->Auth->allow('join', 'activate');
+		$this->Auth->allow('join', 'activate', 'resend_activation');
 		parent::beforeFilter();
 	}
 	
@@ -199,6 +199,45 @@ class UsersController extends AppController {
 				$this->redirect('/');
 			}
 		}
+	}
+	
+	/**
+	 * Resend the activation link
+	 *
+	 * @return void
+	 * @author Technoguru Aka. Johnathan Pulos
+	 */
+	function resend_activation() {
+		if (!empty($this->data)) {
+			if(!empty($this->data['User']['email'])) {
+				$user = $this->User->findByEmail($this->data['User']['email']);
+				if ($user['User']['active'] == 1){
+					$this->Session->setFlash("Your account is already activated.", 'flash_failure');
+				}else if ($user['User']['active'] == 2){
+					$this->Session->setFlash("Your account has been suspended.  Please contact us if you have any questions.", 'flash_failure');
+				}else{
+					if(!empty($user)){
+						/**
+						 * Create a new remote hash to handle the activation
+						 *
+						 * @author Technoguru Aka. Johnathan Pulos
+						 */
+						$this->User->id = $user['User']['id'];
+						$newRemoteHash = $this->User->getActivationHash($user['User']['created']);
+						$this->User->saveField('remote_hash', $newRemoteHash);
+						$this->setLinkHashForEmail('users/activate/' . $user['User']['id'], $newRemoteHash);
+						$this->send_user_email($user, 'user_confirm', 'Please confirm your email address');
+						$this->Session->setFlash("Thank you for joining the network.  Please visit your email, and activate your account.", 'flash_success');
+					}else{
+						$this->Session->setFlash("Please provide a valid email.", 'flash_failure');
+					}
+				}
+				$this->redirect('/');
+			}else{
+				$this->Session->setFlash("Please provide a valid email.", 'flash_failure');
+				$this->redirect('/');
+			}
+		}		
 	}
 	
 	/**
