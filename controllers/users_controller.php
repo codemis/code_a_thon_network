@@ -36,7 +36,7 @@ class UsersController extends AppController {
 	 *  @author Technoguru Aka. Johnathan Pulos
 	*/
 	function beforeFilter() {
-		$this->Auth->allow('join', 'activate', 'resend_activation', 'forgot_password');
+		$this->Auth->allow('join', 'activate', 'resend_activation', 'forgot_password', 'reset_password');
 		parent::beforeFilter();
 	}
 	
@@ -271,6 +271,57 @@ class UsersController extends AppController {
 				$this->redirect('/');
 			}
 		}		
+	}
+	
+	/**
+	 * Reset your password
+	 *
+	 * @param string $id User.id to reset password on
+	 * @param string $in_hash Incoming Activation Hash from the email
+	 * @return void
+	 * @author Technoguru Aka. Johnathan Pulos
+	 */
+	function reset_password($id = null, $in_hash = null){
+		if (!$id && empty($this->data)) {
+			$this->Session->setFlash("Please select a valid user.", 'flash_failure');
+			$this->redirect('/');
+		}
+		if (!$in_hash && empty($this->data)) {
+			$this->Session->setFlash("The url supplied is invalid.", 'flash_failure');
+			$this->redirect('/');
+		}
+		if (!empty($this->data)) {
+			$id = $this->data['User']['id'];
+			$user = $this->User->findById($id);
+			if($this->data['User']['url'] == $user['User']['remote_hash']){
+				if($this->data['User']['password_original'] != $this->data['User']['password_confirmation']){
+					$this->Session->setFlash("Your password and password confirmation does not match.", 'flash_failure');
+					$this->set('url', $this->data['User']['url']);
+				}else{
+					$this->data['User']['password'] = $this->Auth->password($this->data['User']['password_original']);
+					$this->User->id = $id;
+					if($this->User->save($this->data, true, array('password'))) {
+						/**
+						 * Clear hash to protect from forgery
+						 *
+						 * @author Technoguru Aka. Johnathan Pulos
+						 */
+						$this->User->saveField('remote_hash', '');
+						$this->Session->setFlash("Your account has been updated.", 'flash_success');
+					}else {
+						$this->Session->setFlash("Unable to modify the user information.", 'flash_failure');
+					}
+					$this->redirect('/');
+				}	
+			}else{
+				$this->Session->setFlash("The url you provided is not valid or disabled.  Please request a new url.", 'flash_failure');
+				$this->redirect('/');
+			}
+		}
+		if (empty($this->data)) {
+			$this->set('url', $in_hash);
+		}
+		$this->set('id', $id);
 	}
 	
 	/**
