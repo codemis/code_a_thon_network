@@ -19,7 +19,7 @@ class UsersController extends AppController {
  	 *
  	 * @var array
  	 **/
-	public $helpers = array('Time');
+	public $helpers = array('Time', 'UsersView');
 	
 	/**
  	 * An array of CakePHP/Custom components used by this controller
@@ -332,6 +332,7 @@ class UsersController extends AppController {
 	 * @author Johnathan Pulos
 	 */
 	function admin_index() {
+		$this->set('users', $this->paginate('User'));
 	}
 	
 	/**
