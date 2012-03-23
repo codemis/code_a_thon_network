@@ -336,6 +336,32 @@ class UsersController extends AppController {
 	}
 	
 	/**
+	 * ADMIN: Change the active state of a user
+	 *
+	 * @param string $id User.id
+	 * @param string $new_state 0 = pending, 1 = active, 2 = suspended
+	 * @return void
+	 * @access public
+	 * @author Johnathan Pulos
+	 */
+	function admin_change_state($id = null, $new_state = 0) {
+		$this->User->id = $id;
+		$user = $this->User->read(null,$this->User->id);
+		$this->User->saveField('active', $new_state);
+		switch ($new_state) {
+			case 1:
+				$this->send_user_email($user, 'user_activated', 'Your account has been activated.');
+				$this->Session->setFlash($user['User']['name'] . " has been activated.", 'flash_success');
+			break;
+			case 2:
+				$this->send_user_email($user, 'user_suspend', 'Your account has been suspended!');
+				$this->Session->setFlash($user['User']['name'] . " has been suspended.", 'flash_success');
+			break;
+		}
+		$this->redirect(array('controller' => 'users', 'action' => 'index', 'admin' => true));
+	}
+	
+	/**
 	 * PRIVATE: Create a link with a hash to direct user to a unique page for managing their account.
 	 *
 	 * @param string $returnUrl the url you want them to be directed to

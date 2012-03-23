@@ -40,6 +40,17 @@ echo $paginator->counter(array('format' => __('Page %page% of %pages%', true)));
 					<?php echo $this->Time->niceShort($user['User']['created']); ?>
 				</td>
 				<td class="actions">
+					<?php 
+						if($session->read('Auth.User.id') != $user['User']['id']):
+							if ($user['User']['active'] == 0):
+								echo $html->link(__('Activate', true), array('action' => 'admin_change_state', $user['User']['id'], 1)); 
+							elseif($user['User']['active'] == 1):
+								echo $html->link(__('Suspend', true), array('action' => 'admin_change_state', $user['User']['id'], 2)); 
+							elseif($user['User']['active'] == 2):
+								echo $html->link(__('Reactivate', true), array('action' => 'admin_change_state', $user['User']['id'], 1)); 
+							endif;
+						endif;
+					?>
 				</td>
 			</tr>
 		<?php endforeach; ?>
